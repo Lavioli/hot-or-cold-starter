@@ -1,17 +1,8 @@
-/*
-difference: >50  -> 'Icd cold'
-30 - 50 cold
-20-30 warm
-10-20 hot
-1- 10 very hot
-*/
-
-
 var num,
     numInput,
     userFeedback;
-    arr = [];
 
+//generate random number
 var generateNum = function() {
     num = Math.floor((Math.random() * 100) + 1);
     return num;
@@ -20,25 +11,27 @@ var generateNum = function() {
 
 //create a newGame;
 function newGame() {
-    // resetVariables();
-    // render();
     generateNum();
 }
 
 //Feedback
 function generateFeedback() {
     if (num === numInput) {
-    	userFeedback = "you are cool";
+        // userFeedback = "you are cool";
+        $('#feedback').text('Yay! Correct!');
     } else if (Math.abs(num - numInput) < 10) {
-        userFeedback = "hot";
+        // userFeedback = "hot";
+        $('#feedback').text('hot');
     } else if (Math.abs(num - numInput) < 20) {
-        userFeedback = "kinda hot";
+        // userFeedback = "kinda hot";
+        $('#feedback').text('kinda hot');
     } else if (Math.abs(num - numInput) < 30) {
-        userFeedback = "less than warm";
+        // userFeedback = "less than warm";
+        $('#feedback').text('less than warm');
     } else {
-        userFeedback = "cold";
+        // userFeedback = "cold";
+        $('#feedback').text('warm');
     }
-    console.log(userFeedback);
 }
 
 $(document).ready(function() {
@@ -48,11 +41,13 @@ $(document).ready(function() {
     $("#guess-form").submit(function(event) {
         event.preventDefault();
         numInput = parseInt($("#userGuess").val());
+        generateFeedback();
     });
 
     $(".new").click(function(event) {
-        // event.preventdefault(); **NEED TO ASK, NOT SURE HOW TO STOP REFRESH WHEN INSERTING NUMINPUT AGAIN
-        newGame();
+
+        $('#guess-form').children('input:not(#guessButton)').val('');
+
     });
 
     /*--- Display information modal box ---*/
@@ -66,30 +61,32 @@ $(document).ready(function() {
         $(".overlay").fadeOut(1000);
     });
 
-    function check() {
-        if ((numInput % 1) !== 0) { //if not a number
-            alert('Input a number!');
-        } else if (numInput > 100) {
-        	alert('Choose number between 0 and 100!');
-        } 
-    }
 
 });
 
-// function alreadyUsed(number) {
-// 	num
-// }
-
-// function checkRepeat(list) {
-// 	for()
-// }
-
-// function checkGuess(){
-// 	if(userGuess %1 !==0){
+// function check() {
+//        if ((numInput % 1) !== 0) { //if not a number
+//            alert('Input a number!');
+//        } else if (numInput > 100) {
+//            alert('Choose number between 0 and 100!');
+//        }
+//    }
 
 
-//checks to make sure input is
+/*function alreadyUsed(number) {
+	num
+}
 
+function checkRepeat(list) {
+	for()
+}
+
+function checkGuess(){
+	if(userGuess %1 !==0){
+
+
+checks to make sure input is
+*/
 
 
 //a counter for guesses make a guess - group 1 lavie alex
