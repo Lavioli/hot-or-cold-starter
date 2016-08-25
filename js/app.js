@@ -1,24 +1,27 @@
+'get strict'
 var num,
     numInput,
-    userFeedback;
+    userFeedback,
+    counter = 0;
+arr = [];
 
 //generate random number
-var generateNum = function() {
+function generateNum() {
     num = Math.floor((Math.random() * 100) + 1);
     return num;
 };
 
-
 //create a newGame;
 function newGame() {
+    arr = [];
     generateNum();
+
 }
 
-//Feedback
+//feedback
 function generateFeedback() {
-    if (num === numInput) {
-        // userFeedback = "you are cool";
-        $('#feedback').text('Yay! Correct!');
+    if (num === parseInt(numInput)) {
+        return $('#feedback').text('Yay! Correct!');
     } else if (Math.abs(num - numInput) < 10) {
         // userFeedback = "hot";
         $('#feedback').text('hot');
@@ -28,26 +31,58 @@ function generateFeedback() {
     } else if (Math.abs(num - numInput) < 30) {
         // userFeedback = "less than warm";
         $('#feedback').text('less than warm');
-    } else {
+    } else if (Math.abs(num - numInput) < 99) {
         // userFeedback = "cold";
         $('#feedback').text('warm');
     }
 }
 
+//guess counter
+function guessCounter(val = 0) {
+    (val === 1) ? (counter += 1) : (counter = 0);
+    $('#count').text(counter);
+}
+
+//push guessed number into array
+function guessArr(val) {
+    arr.push(val);
+}
+
+//check if it's a number, and then add it to the list
+function check(val) {
+    if ((val % 1) !== 0) {
+        alert('Input a number!');
+    } else if (val > 100 || val < 0) {
+        alert('Choose number between 0 and 100!');
+    } else {
+        if ((arr.indexOf(val)) !== -1) {
+            alert("use another");
+        } else {
+            $('.guessBox').append("<li>" + val + "</li>");
+            guessCounter(1);
+        }
+    }
+}
+
+
 $(document).ready(function() {
-
     generateNum();
-
     $("#guess-form").submit(function(event) {
         event.preventDefault();
-        numInput = parseInt($("#userGuess").val());
+        numInput = $("#userGuess").val();
+        check(numInput);
         generateFeedback();
+        // displayGuess(numInput);
+        guessArr(numInput);
+        $('input[type="text"], textarea').val('');
     });
 
     $(".new").click(function(event) {
-
         $('#guess-form').children('input:not(#guessButton)').val('');
-
+        guessCounter();
+        arr = [];
+        $('.guessBox').find('li').remove();
+        $('#feedback').text('Make your Guess!');
     });
 
     /*--- Display information modal box ---*/
@@ -55,39 +90,11 @@ $(document).ready(function() {
         $(".overlay").fadeIn(1000);
 
     });
-
     /*--- Hide information modal box ---*/
     $("a.close").click(function() {
         $(".overlay").fadeOut(1000);
     });
-
-
 });
-
-// function check() {
-//        if ((numInput % 1) !== 0) { //if not a number
-//            alert('Input a number!');
-//        } else if (numInput > 100) {
-//            alert('Choose number between 0 and 100!');
-//        }
-//    }
-
-
-/*function alreadyUsed(number) {
-	num
-}
-
-function checkRepeat(list) {
-	for()
-}
-
-function checkGuess(){
-	if(userGuess %1 !==0){
-
-
-checks to make sure input is
-*/
-
 
 //a counter for guesses make a guess - group 1 lavie alex
 
